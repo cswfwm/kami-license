@@ -1,0 +1,20 @@
+build/
+dist/
+node_modules/
+.gradle/
+*.class
+local.properties
+.idea/
+*.keystore
+*.jks
+*.p12
+*.key
+*token*
+.venv/
+__pycache__/
+
+# 本地敏感文件：私钥、安装密钥、真实配置
+_data/private_key.pem
+_data/install.key
+_data/config.values.json
+lib/config.php
