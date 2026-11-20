@@ -1,0 +1,21 @@
+Options -Indexes
+DirectoryIndex admin.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # 只对后台管理页强制 HTTPS：管理员密码是明文表单，不能走 HTTP。
+  # 接口层不用 301——浏览器/客户端跟随 301 会把 POST 变成 GET 并丢失请求体，
+  # 那样所有客户端都会失效。接口的机密性由 ECIES 自身保证。
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^(admin\.php|index\.php)?$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+<FilesMatch "^(\.htaccess|\.git.*)$">
+  Require all denied
+</FilesMatch>
+
+# 常见敏感文件，即使误传也不对外
+<FilesMatch "\.(pem|key|json|log|bak|sql|ini|md)$">
+  Require all denied
+</FilesMatch>
